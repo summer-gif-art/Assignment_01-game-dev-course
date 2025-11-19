@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
 
     // Reference to the Rigidbody2D component on the player
-    private Rigidbody2D _rb;
+    private Rigidbody2D _pla;
 
     // Stores the input direction (x, y)
     private Vector2 _input;
@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         // Get the Rigidbody2D component from the same GameObject
-        _rb = GetComponent<Rigidbody2D>();
+        _pla = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -33,6 +33,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Move the player using Rigidbody2D
         // Time.fixedDeltaTime = fixed physics step
-        _rb.MovePosition(_rb.position + Time.fixedDeltaTime * moveSpeed * _input);
+        _pla.MovePosition(_pla.position + Time.fixedDeltaTime * moveSpeed * _input);
     }
 }
