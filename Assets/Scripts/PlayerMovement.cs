@@ -35,4 +35,13 @@ public class PlayerMovement : MonoBehaviour
         // Time.fixedDeltaTime = fixed physics step
         _pla.MovePosition(_pla.position + Time.fixedDeltaTime * moveSpeed * _input);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Debug.Log("You Lose");
+            // Later you can stop the game or show UI
+        }
+    }
+
 }
