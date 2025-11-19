@@ -28,8 +28,7 @@ public class PlayerMovement : MonoBehaviour
         // Create a direction vector and normalize it
         // (so diagonal movement is not faster)
         _input = new Vector2(horizontal, vertical).normalized;
-    }
-
+    } 
     private void FixedUpdate()
     {
         // Move the player using Rigidbody2D
