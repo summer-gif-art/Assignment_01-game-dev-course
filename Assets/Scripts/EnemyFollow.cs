@@ -27,6 +27,6 @@ public class EnemyFollow : MonoBehaviour
         Vector2 direction = ((Vector2)player.position - _ene.position).normalized;
 
         // Move the enemy towards the player using physics step
-        _ene.MovePosition(_ene.position + Time.fixedDeltaTime * moveSpeed * direction );
+        _ene.MovePosition(_ene.position + Time.fixedDeltaTime * moveSpeed * direction);
     }
 }
