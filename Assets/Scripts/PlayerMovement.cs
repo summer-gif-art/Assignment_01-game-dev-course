@@ -16,6 +16,10 @@ public class PlayerMovement : MonoBehaviour
     
     // Prevents multiple "Lose" triggers
     private bool _hasLost;
+    
+    // Reference to the GameManager (for score)
+    private GameManager _gameManager;
+    private CoinSpawner _coinSpawner;
 
     private void Awake()
     {
@@ -27,6 +31,16 @@ public class PlayerMovement : MonoBehaviour
         
         // Explicitly reset lose flag (optional, but removes confusion)
         _hasLost = false;
+       
+        // Find the GameManager in the scene (needed for score updates)
+        _gameManager = FindFirstObjectByType<GameManager>();
+        _coinSpawner = FindFirstObjectByType<CoinSpawner>();
+        
+        if (_gameManager == null)
+            Debug.LogWarning("GameManager not found in scene!");
+
+        if (_coinSpawner == null)
+            Debug.LogWarning("CoinSpawner not found in scene!");
     }
 
     private void Update()
@@ -57,14 +71,37 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("enemy"))
-        {
+        // Do nothing if the player already lost
+        if (_hasLost)
+            return;
+        
             // If we hit an object tagged as "Enemy" → lose the game
             if (other.CompareTag("enemy"))
             {
                 Lose();
             }
-        }
+            
+            // Hit coin → add score + notify spawner + destroy coin
+            else if (other.CompareTag("coin"))
+            {
+                // Get the Coin component to read its score value
+                Coin coin = other.GetComponent<Coin>();
+
+                // If the coin exists and GameManager is available → add score
+                if (coin != null && _gameManager != null)
+                {
+                    _gameManager.AddScore(coin.value);   // Add the correct coin value
+                }
+
+                // Notify spawner that one coin was collected
+                if (_coinSpawner != null)
+                {
+                    _coinSpawner.CoinCollected();
+                }
+                
+                // Remove the collected coin from the scene
+                Destroy(other.gameObject);
+            }
     }
     private void Lose()
     {
