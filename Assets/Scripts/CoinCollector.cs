@@ -3,20 +3,27 @@ using UnityEngine;
 public class CoinCollector : MonoBehaviour
 {
     private int _score;
+    private CoinSpawner _spawner;
 
     private void Awake()
     {
-        // Make sure score starts at 0
         _score = 0;
+
+        // Find the spawner once at startup and keep a reference
+        _spawner = UnityEngine.Object.FindFirstObjectByType<CoinSpawner>();
+        if (_spawner == null)
+        {
+            Debug.LogWarning("No CoinSpawner found in the scene!");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Only react to coins
+        // Only react to objects tagged as "Coin"
         if (!other.CompareTag("coin"))
             return;
 
-        // Get coin value from the Coin script
+        // Read value from Coin component
         Coin coin = other.GetComponent<Coin>();
         if (coin != null)
         {
@@ -24,23 +31,13 @@ public class CoinCollector : MonoBehaviour
             Debug.Log("Score: " + _score);
         }
 
-        // 1) Remove the collected coin from the scene
+        // Destroy the coin
         Destroy(other.gameObject);
 
-        // 2) Now check if there are NO coins left in the scene
-        if (GameObject.FindGameObjectsWithTag("coin").Length == 0)
+        // Tell the spawner that one coin was collected
+        if (_spawner != null)
         {
-            // 3) Find the spawner and ask it to spawn a new batch
-            CoinSpawner spawner = UnityEngine.Object.FindFirstObjectByType<CoinSpawner>();
-            if (spawner != null)
-            {
-                Debug.Log("All coins collected → spawning new batch");
-                spawner.SpawnCoins();
-            }
-            else
-            {
-                Debug.LogWarning("No CoinSpawner found in the scene!");
-            }
+            _spawner.CoinCollected();
         }
     }
 }
