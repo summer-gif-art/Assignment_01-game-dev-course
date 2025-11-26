@@ -30,7 +30,7 @@ public class Coin : MonoBehaviour
 
             case 1: // Green coin
                 value = 20;
-                _sr.color = Color.green;
+                _sr.color = Color.green; 
                 break;
 
             case 2: // Orange coin

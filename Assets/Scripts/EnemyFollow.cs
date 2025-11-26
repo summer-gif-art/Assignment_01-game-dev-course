@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyFollow : MonoBehaviour
 {
     // How fast the enemy moves towards the player
-    public float moveSpeed = 3f;
+    public float moveSpeed = 9f;
 
     // Reference to the player's Transform (drag the Player here in the Inspector)
     public Transform player;

@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // How fast the player moves
-    public float moveSpeed = 20f;
+    public float moveSpeed = 7f;
 
     // Reference to the LoseText UI GameObject (assigned in Inspector)
     public GameObject loseText;
